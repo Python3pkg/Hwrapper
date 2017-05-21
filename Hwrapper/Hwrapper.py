@@ -21,7 +21,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 '''
 
 from urllib import request
-import urllib
+import urllib.request, urllib.parse, urllib.error
 import base64
 import json
 import xml.etree.ElementTree as El
@@ -79,7 +79,7 @@ class Hwrapper:
                     response=El.fromstring(request.urlopen(requestObj).read())
                     return response
             except:
-                print(" Error:",sys.exc_info()[0])
+                print((" Error:",sys.exc_info()[0]))
                 raise   
         else:
             print("Please assign host port before query")
@@ -99,11 +99,11 @@ class Hwrapper:
                     response=json.loads(request.urlopen(requestObj).read().decode('utf-8'))
                     return response
                 else:
-                    print(request.urlopen(requestObj).read())
+                    print((request.urlopen(requestObj).read()))
                     response=El.fromstring(request.urlopen(requestObj).read())
                     return response
             except:
-                print(" Error:",sys.exc_info()[0])
+                print((" Error:",sys.exc_info()[0]))
                 raise   
         else:
             print("Please assign host port before querying list tables")
@@ -122,7 +122,7 @@ class Hwrapper:
                     response=El.fromstring(request.urlopen(requestObj).read())
                     return response
             except:
-                print(" Error:",sys.exc_info()[0])
+                print((" Error:",sys.exc_info()[0]))
                 raise   
         else:
             print("Please assign host port before querying table schema")
@@ -176,16 +176,16 @@ class Hwrapper:
                 requestObj.add_header("Accept",str(self.content_type))
                 if self.content_type=="application/json":
                     response=json.loads(request.urlopen(requestObj).read().decode('utf-8'))
-                    for key,value in response.items():
+                    for key,value in list(response.items()):
                         if isinstance(value, list):
                             someval=value.pop()
-                            for k2,v2 in someval.items():
+                            for k2,v2 in list(someval.items()):
                                 #print(k2,v2)
                                 if k2 == "Cell":
                                     for key in v2:
                                         list1=dict()
                                         object=v2.pop()
-                                        for k3,v3 in object.items():
+                                        for k3,v3 in list(object.items()):
                                             if isinstance(v3,int):
                                                 list1[k3]=v3
                                             else:
@@ -199,7 +199,7 @@ class Hwrapper:
                     return response
                 
             except:
-                print(" Error:",sys.exc_info()[0])
+                print((" Error:",sys.exc_info()[0]))
                 raise   
         else:
             print("Please assign host port before querying table schema")
